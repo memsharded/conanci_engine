@@ -1,5 +1,6 @@
 from conan import ConanFile
 from conan.tools.cmake import CMakeToolchain, CMakeDeps, CMake, cmake_layout
+from conan.tools.scm import Git
 
 
 class engineRecipe(ConanFile):
@@ -15,6 +16,10 @@ class engineRecipe(ConanFile):
 
     # Sources are located in the same place as this recipe, copy them to the recipe
     exports_sources = "CMakeLists.txt", "src/*", "include/*"
+
+    def export(self):
+        git = Git(self, self.recipe_folder)
+        git.coordinates_to_conandata()
 
     def config_options(self):
         if self.settings.os == "Windows":
